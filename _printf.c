@@ -70,14 +70,14 @@ int handle_specifier(va_list *args, char specifier)
 		{'%', handle_percent}};
 	const int count = sizeof(handlers) / sizeof(handlers[0]);
 
-	/* Search for matching specifier */
-	for (int i = 0; i < count; i++)
+	int i = 0;
+	while (i < count)
 	{
 		if (handlers[i].symbol == specifier)
 			return (handlers[i].handler(args));
+		i++;
 	}
 
-	/* Handle unknown specifier */
 	return (handle_unknown(specifier));
 }
 
