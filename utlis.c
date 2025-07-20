@@ -15,7 +15,7 @@
  *
  * Return: Number of characters printed or -1 on error
  */
-static int put_unsigned(unsigned long long n, int base, int uppercase)
+static int put_unsigned(unsigned long n, int base, int uppercase)
 {
 	char buf[65];		  /* Buffer large enough for 64-bit numbers + null */
 	char *ptr = buf + 64; /* Start at end of buffer */

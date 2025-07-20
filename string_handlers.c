@@ -12,9 +12,9 @@
 int handle_char(va_list *args)
 {
 
-    char c = (char)va_arg(*args, int);
+	char c = (char)va_arg(*args, int);
 
-    return (write(1, &c, 1) == -1 ? -1 : 1);
+	return (write(1, &c, 1) == -1 ? -1 : 1);
 }
 
 /**
@@ -28,9 +28,9 @@ int handle_char(va_list *args)
  */
 int handle_string(va_list *args)
 {
-    char *str = va_arg(*args, char *);
+	char *str = va_arg(*args, char *);
 
-    return (put_string(str));
+	return (put_string(str));
 }
 
 /**
@@ -45,9 +45,9 @@ int handle_string(va_list *args)
  */
 int handle_hex(va_list *args, int uppercase)
 {
-    int num = va_arg(*args, unsigned int);
+	long long num = va_arg(*args, unsigned int);
 
-    return (put_unsigned((unsigned long long)num, 16, uppercase));
+	return (put_unsigned(num, 16, uppercase));
 }
 
 /**
@@ -60,7 +60,7 @@ int handle_hex(va_list *args, int uppercase)
  */
 int handle_hex_lower(va_list *args)
 {
-    return (handle_hex(args, 0));
+	return (handle_hex(args, 0));
 }
 /**
  * handle_hex_upper - Handles %X specifier (uppercase hex)
@@ -72,5 +72,5 @@ int handle_hex_lower(va_list *args)
  */
 int handle_hex_upper(va_list *args)
 {
-    return (handle_hex(args, 1));
+	return (handle_hex(args, 1));
 }
