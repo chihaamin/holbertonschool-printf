@@ -12,7 +12,7 @@
  */
 int handle_int(va_list *args)
 {
-	long num = (unsigned long long)va_arg(*args, int);
+	unsigned long num = (unsigned long long)va_arg(*args, int);
 	int count = 0;
 
 	/* Handle negative numbers */
@@ -41,9 +41,9 @@ int handle_int(va_list *args)
  */
 int handle_uint(va_list *args)
 {
-	unsigned num = va_arg(*args, unsigned int);
+	unsigned long num = va_arg(*args, unsigned int);
 
-	return (put_unsigned((unsigned long long)num, 10, 0));
+	return (put_unsigned(num, 10, 0));
 }
 
 /**
@@ -57,9 +57,9 @@ int handle_uint(va_list *args)
  */
 int handle_octal(va_list *args)
 {
-	unsigned num = va_arg(*args, unsigned int);
+	unsigned long num = va_arg(*args, unsigned int);
 
-	return (put_unsigned((unsigned long long)num, 8, 0));
+	return (put_unsigned(num, 8, 0));
 }
 
 /**
@@ -76,9 +76,9 @@ int handle_octal(va_list *args)
 int handle_ptr(va_list *args)
 {
 	void *ptr = va_arg(*args, void *);
-	unsigned long int addr = (unsigned long int)ptr;
+	unsigned long addr = (unsigned long)ptr;
 	int count = 0;
-	unsigned res;
+	unsigned long res;
 
 	/* Print "0x" prefix */
 	res = write(1, "0x", 2);
