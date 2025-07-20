@@ -10,8 +10,8 @@
  */
 int handle_percent(va_list *args)
 {
-    (void)args; /* Unused parameter */
-    return (write(1, "%", 1) == -1 ? -1 : 1);
+	(void)args; /* Unused parameter */
+	return (write(1, "%", 1) == -1 ? -1 : 1);
 }
 
 /**
@@ -25,21 +25,21 @@ int handle_percent(va_list *args)
  */
 int handle_unknown(char c)
 {
-    int count = 0;
-    int res;
+	int count = 0;
+	int res;
 
-    /* Print '%' */
-    res = write(1, "%", 1);
-    if (res == -1)
-        return (-1);
-    count += res;
+	/* Print '%' */
+	res = write(1, "%", 1);
+	if (res == -1)
+		return (-1);
+	count += res;
 
-    /* Print unknown character */
-    res = write(1, &c, 1);
-    if (res == -1)
-        return (-1);
+	/* Print unknown character */
+	res = write(1, &c, 1);
+	if (res == -1)
+		return (-1);
 
-    return (count + res);
+	return (count + res);
 }
 
 /**
@@ -56,29 +56,29 @@ int handle_unknown(char c)
  */
 int handle_specifier(va_list *args, char specifier)
 {
-    /* Dispatch table */
-    const t_specifier handlers[] = {
-        {'c', handle_char},
-        {'s', handle_string},
-        {'d', handle_int},
-        {'i', handle_int},
-        {'u', handle_uint},
-        {'o', handle_octal},
-        {'x', handle_hex_lower},
-        {'X', handle_hex_upper},
-        {'p', handle_ptr},
-        {'%', handle_percent}};
-    const int count = sizeof(handlers) / sizeof(handlers[0]);
+	/* Dispatch table */
+	const t_specifier handlers[] = {
+		{'c', handle_char},
+		{'s', handle_string},
+		{'d', handle_int},
+		{'i', handle_int},
+		{'u', handle_uint},
+		{'o', handle_octal},
+		{'x', handle_hex_lower},
+		{'X', handle_hex_upper},
+		{'p', handle_ptr},
+		{'%', handle_percent}};
+	const int count = sizeof(handlers) / sizeof(handlers[0]);
 
-    /* Search for matching specifier */
-    for (int i = 0; i < count; i++)
-    {
-        if (handlers[i].symbol == specifier)
-            return (handlers[i].handler(args));
-    }
+	/* Search for matching specifier */
+	for (int i = 0; i < count; i++)
+	{
+		if (handlers[i].symbol == specifier)
+			return (handlers[i].handler(args));
+	}
 
-    /* Handle unknown specifier */
-    return (handle_unknown(specifier));
+	/* Handle unknown specifier */
+	return (handle_unknown(specifier));
 }
 
 /**
@@ -95,10 +95,10 @@ int handle_specifier(va_list *args, char specifier)
  */
 int handle_format(va_list *args, const char **format)
 {
-    (*format)++;          /* Skip '%' */
-    if (**format == '\0') /* Handle trailing % */
-        return (0);
-    return (handle_specifier(args, **format));
+	(*format)++;		  /* Skip '%' */
+	if (**format == '\0') /* Handle trailing % */
+		return (0);
+	return (handle_specifier(args, **format));
 }
 
 /**
@@ -121,38 +121,37 @@ int handle_format(va_list *args, const char **format)
  */
 int _printf(const char *format, ...)
 {
-    va_list args;
-    int count = 0;
-    int res;
+	va_list args;
+	int count = 0;
+	int res;
 
-    va_start(args, format);
+	va_start(args, format);
 
-    /* Process each character */
-    while (*format)
-    {
-        if (*format == '%') /* Format specifier */
-        {
-            res = handle_format(&args, &format);
-            if (res == -1)
-            {
-                count = -1;
-                break;
-            }
-            count += res;
-        }
-        else /* Literal character */
-        {
-            res = write(1, format, 1);
-            if (res == -1)
-            {
-                count = -1;
-                break;
-            }
-            count++;
-        }
-        format++; /* Advance to next character */
-    }
+	while (*format)
+	{
+		if (*format == '%') /* Format specifier */
+		{
+			res = handle_format(&args, &format);
+			if (res == -1)
+			{
+				count = -1;
+				break;
+			}
+			count += res;
+		}
+		else /* Literal character */
+		{
+			res = write(1, format, 1);
+			if (res == -1)
+			{
+				count = -1;
+				break;
+			}
+			count++;
+		}
+		format++; /* Advance to next character */
+	}
 
-    va_end(args);
-    return (count);
+	va_end(args);
+	return (count);
 }

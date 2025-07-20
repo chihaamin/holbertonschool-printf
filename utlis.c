@@ -39,7 +39,7 @@ static int put_unsigned(unsigned long long n, int base, int uppercase)
 	}
 
 	/* Calculate length and write */
-	int len = (buf + 64) - ptr;
+	unsigned int len = (buf + 64) - ptr;
 
 	return (write(1, ptr, len) == -1 ? -1 : len);
 }
