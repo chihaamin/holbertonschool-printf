@@ -10,7 +10,7 @@
  *
  * Return: Number of characters printed or -1 on error
  */
-unsigned handle_int(va_list *args)
+int handle_int(va_list *args)
 {
 	long num = (unsigned long long)va_arg(*args, int);
 	int count = 0;
@@ -25,7 +25,7 @@ unsigned handle_int(va_list *args)
 		count++;
 	}
 
-	unsigned res = put_unsigned(num, 10, 0);
+	int res = put_unsigned(num, 10, 0);
 
 	return ((res == -1) ? -1 : count + res);
 }
@@ -39,7 +39,7 @@ unsigned handle_int(va_list *args)
  *
  * Return: Number of characters printed or -1 on error
  */
-unsigned handle_uint(va_list *args)
+int handle_uint(va_list *args)
 {
 	unsigned num = va_arg(*args, unsigned int);
 
@@ -55,7 +55,7 @@ unsigned handle_uint(va_list *args)
  *
  * Return: Number of characters printed or -1 on error
  */
-unsigned handle_octal(va_list *args)
+int handle_octal(va_list *args)
 {
 	unsigned num = va_arg(*args, unsigned int);
 
@@ -73,7 +73,7 @@ unsigned handle_octal(va_list *args)
  *
  * Return: Number of characters printed or -1 on error
  */
-unsigned handle_ptr(va_list *args)
+int handle_ptr(va_list *args)
 {
 	void *ptr = va_arg(*args, void *);
 	unsigned long int addr = (unsigned long int)ptr;
