@@ -17,34 +17,34 @@
  */
 int put_unsigned(unsigned long n, unsigned int base, unsigned int uppercase)
 {
-    char buf[65];         /* Buffer large enough for 64-bit numbers + null */
-    char *ptr = buf + 64; /* Start at end of buffer */
-    const char *digits = uppercase ? "0123456789ABCDEF" : "0123456789abcdef";
-    int len;
+	char buf[65];		  /* Buffer large enough for 64-bit numbers + null */
+	char *ptr = buf + 64; /* Start at end of buffer */
+	const char *digits = uppercase ? "0123456789ABCDEF" : "0123456789abcdef";
+	int len;
 
-    /* Base validation */
-    if (base < 2 || base > 16)
-        base = 10;
+	/* Base validation */
+	if (base < 2 || base > 16)
+		base = 10;
 
-    *ptr = '\0'; /* Null-terminate string */
+	*ptr = '\0'; /* Null-terminate string */
 
-    /* Handle zero case */
-    if (n == 0)
-        *--ptr = '0';
+	/* Handle zero case */
+	if (n == 0)
+		*--ptr = '0';
 
-    /* Convert number to string (backwards) */
-    while (n)
-    {
-        *--ptr = digits[n % base]; /* Get digit and move pointer left */
-        n /= base;
-    }
+	/* Convert number to string (backwards) */
+	while (n)
+	{
+		*--ptr = digits[n % base]; /* Get digit and move pointer left */
+		n /= base;
+	}
 
-    /* Calculate length and write */
-    len = (buf + 64) - ptr;
+	/* Calculate length and write */
+	len = (buf + 64) - ptr;
 
-    if (write(1, ptr, len) == -1)
-        return (-1);
-    return (len);
+	if (write(1, ptr, len) == -1)
+		return (-1);
+	return (len);
 }
 
 /**
@@ -60,18 +60,18 @@ int put_unsigned(unsigned long n, unsigned int base, unsigned int uppercase)
  */
 int put_string(char *str)
 {
-    int len = 0;
+	int len = 0;
 
-    /* Handle NULL pointer */
-    if (!str)
-        str = "(null)";
+	/* Handle NULL pointer */
+	if (!str)
+		str = "(null)";
 
-    /* Calculate string length */
-    while (str[len])
-        len++;
+	/* Calculate string length */
+	while (str[len])
+		len++;
 
-    /* Write entire string at once */
-    return (write(1, str, len) == -1 ? -1 : len);
+	/* Write entire string at once */
+	return (write(1, str, len) == -1 ? -1 : len);
 }
 
 /**
@@ -85,21 +85,21 @@ int put_string(char *str)
  */
 int handle_unknown(char c)
 {
-    int count = 0;
-    int res;
+	int count = 0;
+	int res;
 
-    /* Print '%' */
-    res = write(1, "%", 1);
-    if (res == -1)
-        return (-1);
-    count += res;
+	/* Print '%' */
+	res = write(1, "%", 1);
+	if (res == -1)
+		return (-1);
+	count += res;
 
-    /* Print unknown character */
-    res = write(1, &c, 1);
-    if (res == -1)
-        return (-1);
+	/* Print unknown character */
+	res = write(1, &c, 1);
+	if (res == -1)
+		return (-1);
 
-    return (count + res);
+	return (count + res);
 }
 
 /**
@@ -116,30 +116,30 @@ int handle_unknown(char c)
  */
 int handle_specifier(va_list *args, char specifier)
 {
-    /* Dispatch table */
-    const t_specifier handlers[] = {
-        {'c', handle_char},
-        {'s', handle_string},
-        {'d', handle_int},
-        {'i', handle_int},
-        {'u', handle_uint},
-        {'o', handle_octal},
-        {'x', handle_hex_lower},
-        {'X', handle_hex_upper},
-        {'p', handle_ptr},
-        {'%', handle_percent}};
-    const int count = sizeof(handlers) / sizeof(handlers[0]);
+	/* Dispatch table */
+	const t_specifier handlers[] = {
+		{'c', handle_char},
+		{'s', handle_string},
+		{'d', handle_int},
+		{'i', handle_int},
+		{'u', handle_uint},
+		{'o', handle_octal},
+		{'x', handle_hex_lower},
+		{'X', handle_hex_upper},
+		{'p', handle_ptr},
+		{'%', handle_percent}};
+	const int count = sizeof(handlers) / sizeof(handlers[0]);
 
-    int i = 0;
+	int i = 0;
 
-    while (i < count)
-    {
-        if (handlers[i].symbol == specifier)
-            return (handlers[i].handler(args));
-        i++;
-    }
+	while (i < count)
+	{
+		if (handlers[i].symbol == specifier)
+			return (handlers[i].handler(args));
+		i++;
+	}
 
-    return (handle_unknown(specifier));
+	return (handle_unknown(specifier));
 }
 
 /**
@@ -155,9 +155,9 @@ int handle_specifier(va_list *args, char specifier)
  */
 int handle_format(va_list *args, const char **format)
 {
-    (*format)++;
-    if (**format == '\0')
-        return (0);
+	(*format)++;
+	if (**format == '\0')
+		return (0);
 
-    return (handle_specifier(args, **format));
+	return (handle_specifier(args, **format));
 }
