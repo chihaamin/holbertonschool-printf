@@ -45,9 +45,9 @@ int handle_string(va_list *args)
  */
 int handle_hex(va_list *args, int uppercase)
 {
-	long long num = va_arg(*args, unsigned int);
+	unsigned int num = va_arg(*args, unsigned int);
 
-	return (put_unsigned(num, 16, uppercase));
+	return (put_unsigned((unsigned long)num, 16, uppercase));
 }
 
 /**

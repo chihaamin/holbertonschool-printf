@@ -12,22 +12,30 @@
  */
 int handle_int(va_list *args)
 {
-	unsigned long num = (unsigned long long)va_arg(*args, int);
+	int n = va_arg(*args, int);
 	int count = 0;
+	unsigned long abs_n;
+	int res;
 
-	/* Handle negative numbers */
-	if (num < 0)
+	if (n < 0)
 	{
 		if (write(1, "-", 1) == -1)
 			return (-1);
-
-		num = -num;
 		count++;
+		if (n == INT_MIN)
+			abs_n = (unsigned long)INT_MAX + 1;
+		else
+			abs_n = (unsigned long)(-n);
+	}
+	else
+	{
+		abs_n = (unsigned long)n;
 	}
 
-	int res = put_unsigned(num, 10, 0);
-
-	return ((res == -1) ? -1 : count + res);
+	res = put_unsigned(abs_n, 10, 0);
+	if (res == -1)
+		return (-1);
+	return (count + res);
 }
 
 /**
@@ -41,9 +49,9 @@ int handle_int(va_list *args)
  */
 int handle_uint(va_list *args)
 {
-	unsigned long num = va_arg(*args, unsigned int);
+	unsigned int n = va_arg(*args, unsigned int);
 
-	return (put_unsigned(num, 10, 0));
+	return (put_unsigned((unsigned long)n, 10, 0));
 }
 
 /**
@@ -57,9 +65,12 @@ int handle_uint(va_list *args)
  */
 int handle_octal(va_list *args)
 {
-	unsigned long num = va_arg(*args, unsigned int);
+	unsigned long n = va_arg(*args, unsigned int);
+	int res;
 
-	return (put_unsigned(num, 8, 0));
+	res = put_unsigned(n, 8, 0);
+
+	return (res);
 }
 
 /**
@@ -78,8 +89,7 @@ int handle_ptr(va_list *args)
 	void *ptr = va_arg(*args, void *);
 	unsigned long addr = (unsigned long)ptr;
 	int count = 0;
-	unsigned long res;
-
+	int res;
 	/* Print "0x" prefix */
 	res = write(1, "0x", 2);
 	if (res == -1)
@@ -92,4 +102,18 @@ int handle_ptr(va_list *args)
 		return (-1);
 
 	return (count + res);
+}
+
+/**
+ * handle_percent - Handles %% specifier (percent sign)
+ * @args: Unused va_list
+ *
+ * Logic: Prints literal '%' character
+ *
+ * Return: 1 on success, -1 on error
+ */
+int handle_percent(va_list *args)
+{
+	(void)args; /* Unused parameter */
+	return (write(1, "%", 1) == -1 ? -1 : 1);
 }

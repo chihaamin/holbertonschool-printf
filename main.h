@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
+#include <limits.h>
 
 int _putchar(char c);
 
@@ -47,5 +48,9 @@ int handle_hex_upper(va_list *args);
 int handle_ptr(va_list *args);
 int handle_percent(va_list *args);
 int handle_unknown(char c);
+
+/* Utility functions */
+int put_string(char *str);
+int put_unsigned(unsigned long n, unsigned int base, unsigned int uppercase);
 
 #endif
