@@ -32,7 +32,7 @@ int _printf(const char *format, ...)
 		{
 			if (*(format + 1) == '\0') /* Handle trailing '%' */
 			{
-				res = write(1, "%", 2);
+				res = _putchar('%');
 				count++;
 				return (count);
 			}
