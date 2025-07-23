@@ -72,11 +72,11 @@ flowchart TD
 
 4. Edge Case Management:
 
-- Handles INT_MIN correctly
+    - Handles INT_MIN correctly
 
-- Prints (null) for NULL strings
+    - Prints (null) for NULL strings
 
-- Processes trailing % characters properly
+    - Processes trailing % characters properly
 
 5. Memory Safety: Uses stack buffers instead of dynamic allocation
 
