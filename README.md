@@ -1,6 +1,5 @@
 # holbertonschool-printf
-
-# Custom `_printf` Implementation
+### *Custom `_printf` Implementation*
 
 ## Overview
 This project implements a custom `_printf` function that mimics the behavior of the standard C library `printf` function. It supports various format specifiers to handle different data types and includes robust error handling.
