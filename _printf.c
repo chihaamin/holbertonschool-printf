@@ -30,6 +30,13 @@ int _printf(const char *format, ...)
 	{
 		if (*format == '%') /* Format specifier */
 		{
+			if (*(format + 1) == '\0') /* Handle trailing '%' */
+			{
+				res = write(1, "%", 1);
+				count++;
+				return (count);
+			}
+
 			res = handle_format(&args, &format);
 			if (res == -1)
 			{
